@@ -1,0 +1,43 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  LATEST_LIBRARY_x86_64_LINUX_GNU:
+    value: "https://github.com/DataDog/dd-trace-php/releases/download/0.77.0/dd-library-php-0.77.0-x86_64-linux-gnu.tar.gz"
+    description: "Location where to download latest dd-library-php-*-x86_64-linux-gnu.tar.gz archive"
+  DOWNSTREAM_REL_BRANCH:
+    value: "master"
+    description: "Run a specific datadog-reliability-env branch downstream"
+  FORCE_TRIGGER:
+    value: "false"
+    description: "Set to true to override rules in the reliability-env pipeline (e.g. override 'only deploy master')"
+
+build:
+  stage: build
+  image: 486234852809.dkr.ecr.us-east-1.amazonaws.com/base:bionic
+  tags: [ "runner:main", "size:large" ]
+  script:
+    - echo $LATEST_LIBRARY_x86_64_LINUX_GNU | sed -E 's/.*dd-library-php-(.+)-x86_64-linux-gnu.tar.gz.*/UPSTREAM_TRACER_VERSION=\1/' >> upstream.env
+    - curl --fail --location --output 'dd-library-php-x86_64-linux-gnu.tar.gz' "$LATEST_LIBRARY_x86_64_LINUX_GNU"
+    - curl --fail --location -O "$(dirname $LATEST_LIBRARY_x86_64_LINUX_GNU)/datadog-setup.php"
+    - tar -cf 'datadog-setup-x86_64-linux-gnu.tar' 'datadog-setup.php' 'dd-library-php-x86_64-linux-gnu.tar.gz'
+  artifacts:
+    paths:
+      - 'upstream.env'
+      - 'datadog-setup-x86_64-linux-gnu.tar'
+
+deploy_to_reliability_env:
+  stage: deploy
+  trigger:
+    project: DataDog/apm-reliability/datadog-reliability-env
+    branch: $DOWNSTREAM_REL_BRANCH
+  variables:
+    UPSTREAM_PACKAGE_JOB: build
+    UPSTREAM_PROJECT_ID: $CI_PROJECT_ID
+    UPSTREAM_PROJECT_NAME: $CI_PROJECT_NAME
+    UPSTREAM_PIPELINE_ID: $CI_PIPELINE_ID
+    UPSTREAM_BRANCH: $CI_COMMIT_REF_NAME
+#    COMMIT_SHA would be wrong because the artifact is not built here
+#    UPSTREAM_COMMIT_SHA: $CI_COMMIT_SHA
+    FORCE_TRIGGER: $FORCE_TRIGGER

@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+    <name>datadog_trace</name>
+    <channel>pecl.php.net</channel>
+    <summary>APM and distributed tracing for PHP</summary>
+    <description>The Datadog PHP Tracer brings APM and distributed tracing to PHP.</description>
+    <lead>
+        <name>Sammy Kaye Powers</name>
+        <user>sammyk</user>
+        <email>sammyk@php.net</email>
+        <active>yes</active>
+    </lead>
+    <lead>
+        <name>Levi Morrison</name>
+        <user>levim</user>
+        <email>levim@php.net</email>
+        <active>yes</active>
+    </lead>
+    <lead>
+        <name>Luca Abbati</name>
+        <user>labbati</user>
+        <email>luca.abbati@gmail.com</email>
+        <active>yes</active>
+    </lead>
+    <lead>
+        <name>Bob Weinand</name>
+        <user>bwoebi</user>
+        <email>bwoebi@php.net</email>
+        <active>yes</active>
+    </lead>
+    <lead>
+        <name>Joe Watkins</name>
+        <user>krakjoe</user>
+        <email>krakjoe@php.net</email>
+        <active>yes</active>
+    </lead>
+    <!-- **Automatically updated with pecl-build script** -->
+    <!-- Date only needs to be set if it was packaged on a different day from release -->
+    <date>${date}</date>
+    <version>
+        <!-- **Automatically updated with pecl-build script** -->
+        <!-- Version will be set from version.php or 0.0.0 for nightly builds (see 'tooling/bin/pecl-build') -->
+        <release>${version}</release>
+        <api>${version}</api>
+    </version>
+    <stability>
+        <release>stable</release>
+        <api>stable</api>
+    </stability>
+    <license uri="https://github.com/DataDog/dd-trace-php/blob/master/LICENSE">BSD 3-Clause</license>
+    <notes>${notes}</notes>
+    <contents>
+        <dir name="/">
+            <!-- code and test files -->${codefiles}
+            <file name="config.m4" role="src" />
+            <file name="ddtrace.sym" role="src" />
+
+            <!-- Docs -->
+            <file name="CHANGELOG.md" role="doc" />
+            <file name="LICENSE" role="doc" />
+            <file name="LICENSE.Apache" role="doc" />
+            <file name="LICENSE.BSD3" role="doc" />
+            <file name="NOTICE" role="doc" />
+            <file name="README.md" role="doc" />
+            <file name="UPGRADE-0.10.md" role="doc" />
+
+            <!-- PHP files -->
+            <!-- Include any files from ./bridge that are not referenced in ./bridge/_files.php -->
+            <!-- Make sure to update <filelist> below too -->
+            <file name="bridge/_generated_api.php" role="php" />
+            <file name="bridge/_generated_integrations.php" role="php" />
+            <file name="bridge/_generated_tracer.php" role="php" />
+            <file name="bridge/_generated_tracer_api.php" role="php" />
+            <file name="bridge/autoload.php" role="php" />
+            <file name="bridge/dd_init.php" role="php" />
+            <file name="bridge/dd_register_optional_deps_autoloader.php" role="php" />
+            <file name="bridge/dd_wrap_autoloader.php" role="php" />
+        </dir>
+    </contents>
+    <dependencies>
+        <required>
+            <php>
+                <min>7.0</min>
+                <max>8.1.99</max>
+            </php>
+            <pearinstaller>
+                <min>1.4.0</min>
+            </pearinstaller>
+            <extension>
+                <name>json</name>
+            </extension>
+        </required>
+    </dependencies>
+    <providesextension>ddtrace</providesextension>
+    <extsrcrelease>
+        <filelist>
+            <install as="datadog_trace/bridge/_generated_api.php" name="bridge/_generated_api.php" />
+            <install as="datadog_trace/bridge/_generated_integrations.php" name="bridge/_generated_integrations.php" />
+            <install as="datadog_trace/bridge/_generated_tracer.php" name="bridge/_generated_tracer.php" />
+            <install as="datadog_trace/bridge/_generated_tracer_api.php" name="bridge/_generated_tracer_api.php" />
+            <install as="datadog_trace/bridge/autoload.php" name="bridge/autoload.php" />
+            <install as="datadog_trace/bridge/dd_init.php" name="bridge/dd_init.php" />
+            <install as="datadog_trace/bridge/dd_register_optional_deps_autoloader.php" name="bridge/dd_register_optional_deps_autoloader.php" />
+            <install as="datadog_trace/bridge/dd_wrap_autoloader.php" name="bridge/dd_wrap_autoloader.php" />
+        </filelist>
+    </extsrcrelease>
+</package>
